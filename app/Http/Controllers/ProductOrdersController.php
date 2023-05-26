@@ -2,59 +2,51 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Order;
+use App\Models\Product;
+use App\Models\ProductOrder;
 use Illuminate\Http\Request;
 
 class ProductOrdersController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        //
+        $productOrders = ProductOrder::paginate(10);
+        return view('app.product_orders.index', [
+            'productOrders' => $productOrders
+        ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function create(Order $order)
     {
-        //
+        $products = Product::all();
+        $order->products;
+        return view('app.product_orders.create', [
+            'order' => $order,
+            'products' => $products
+        ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function store(Request $request, Order $order)
     {
-        //
+        $rulesP = ['product_id' => 'exists:products,id'];
+        $messageP = ['product_id.exists' => 'O produto informado não existe.'];
+        $request->validate($rulesP, $messageP);
+        $produto = (int) $request->get('product_id');
+
+        ProductOrder::create([
+            'order_id' => $order->id,
+            'product_id' => $produto
+        ]);
+        return redirect()->route('product_orders.create', ['order' => $order->id]);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
+   public function edit($id)
     {
         //
     }

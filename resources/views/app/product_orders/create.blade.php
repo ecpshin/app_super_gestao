@@ -15,12 +15,32 @@
                 <div class="card-body">
                     <h4>ID Pedido: {{ $order->id }}</h4>
                     <p>Cliente: {{ $order->client_id }}</p>
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>ID Produto</th>
+                                <th>Nome</th>
+                                <th>Descrição</th>
+                                <th>Data de Inclusão</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        @foreach($order->products as $op)
+                            <tr>
+                                <td class="p-2">{{ $op->id }}</td>
+                                <td class="p-2">{{ $op->nome }}</td>
+                                <td class="p-2">{{ $op->descricao }}</td>
+                                <td class="p-2" style="text-align: right;">{{ $op->pivot->created_at->format('d/m/Y') }}</td>
+                            </tr>
+                        </tbody>
+                        @endforeach
+                    </table>
                 </div>
             </div>
             <div class="menu_opcoes">
-                <a href="{{ route('product-orders.create') }}" class="btn btn-outline-secondary" role="button">Lista de Pedidos</a>
+                <a href="{{ route('product_orders.index') }}" class="btn btn-outline-secondary" role="button">Lista de Pedidos</a>
             </div>
-            <form method="post" action="{{ route('product-orders.store', $order->id) }}" class="form">
+            <form method="post" action="{{ route('product_orders.store', $order->id) }}" class="form">
                 @csrf
                 <select name="product_id" id="product_id" class="form-select">
                     <option value="">Selecione produto</option>
@@ -30,7 +50,7 @@
                 </select>
                 <div style="width: 100%">
                     <button type="submit" class="btn btn-success btn-pos">Salvar</button>
-                    <a href="{{ route('product-orders.index')}}" role="button" class="btn btn-secondary">Voltar</a>
+                    <a href="{{ route('product_orders.index')}}" role="button" class="btn btn-secondary">Voltar</a>
                 </div>
             </form>
         </div>

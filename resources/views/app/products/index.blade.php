@@ -21,6 +21,7 @@
                     <th>Nome</th>
                     <th>Descrição</th>
                     <th>Peso</th>
+                    <th>Fornecedor</th>
                     <th>Dimensões</th>
                     <th>Unidade</th>
                     <th>Opções</th>
@@ -33,8 +34,9 @@
                         <td>{{$product->nome}}</td>
                         <td>{{$product->descricao}}</td>
                         <td>{{$product->peso}}</td>
-                        <td>{{$product->productDetail->dimensoes ?? ''}}</td>                        
-                        <td>{{$product->unit_id}}</td>
+                        <td>{{ $product->supplier->nome }}</td>
+                        <td>{{$product->productDetail->dimensoes ?? ''}}</td>
+                        <td>{{$product->unit->description}}</td>
                         <td>
                             <div class="btn-group">
                                 <a href="{{ route('produtos.show', $product->id)}}" class="btn btn-secondary">Ver</a>

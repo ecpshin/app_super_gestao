@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Product\ProductStoreRequest;
 use App\Models\Product;
+use App\Models\Supplier;
 use App\Models\Unit;
 use Illuminate\Http\Request;
 
@@ -18,21 +19,22 @@ class ProductsController extends Controller
     public function create()
     {
         $units = Unit::all();
-        return view('app.products.create', compact('units'));
+        $suppliers = Supplier::all();
+        return view('app.products.create', compact('units', 'suppliers'));
     }
-    
+
     public function store(ProductStoreRequest $request)
     {
         $attributes = $request->validated();
         Product::create($attributes);
         return redirect()->route('produtos.index');
     }
-    
+
     public function show(Product $product)
     {
         echo 'Show';
     }
-    
+
     public function edit(Product $product)
     {
         $units = Unit::all();

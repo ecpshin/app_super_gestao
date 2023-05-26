@@ -16,15 +16,15 @@ class CreateClientsOrdersProductOrdersTables extends Migration
         Schema::create('clients', function (Blueprint $table) {
             $table->id();
             $table->string('nome', 100);
-            $table->softDeletes();
             $table->timestamps();
+            $table->softDeletes();
         });
 
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('client_id');
-            $table->softDeletes();
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('client_id')->references('id')->on('clients');
         });
@@ -33,8 +33,8 @@ class CreateClientsOrdersProductOrdersTables extends Migration
             $table->id();
             $table->unsignedBigInteger('order_id');
             $table->unsignedBigInteger('product_id');
-            $table->softDeletes();
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('order_id')->references('id')->on('orders');
             $table->foreign('product_id')->references('id')->on('products');

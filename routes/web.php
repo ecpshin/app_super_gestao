@@ -28,9 +28,7 @@ Route::prefix('/site')->group(function()
 Route::prefix('/app')->middleware('autenticacao')->group(function()
 {
     Route::get('/home', 'HomeController@index')->name('app.home');
-    Route::get('/cliente', 'ClientsController@index')->name('app.client');
-    Route::get('/produto', 'ProductsController@index')->name('app.product');
-
+    Route::resource('/clients', 'ClientsController');
     //Rotas fornecedores
     Route::get('/fornecedores', 'SuppliersController@index')->name('supplier.index');
     Route::get('/fornecedores/pesquisar', 'SuppliersController@search')->name('supplier.search');
@@ -56,11 +54,16 @@ Route::prefix('/app')->middleware('autenticacao')->group(function()
     Route::post('/produtos/listar', 'ProductsController@listar')->name('produtos.listar');
 
     //produtos detalhe
-    Route::resource('produtos-detalhe', 'ProductDetailController');
+    Route::resource('/produtos-detalhe', 'ProductDetailController');
+    Route::resource('/orders', 'OrdersController');
+
+    Route::get('/product_orders', 'ProductOrdersController@index')->name('product_orders.index');
+    Route::get('/product_orders/{order}/create', 'ProductOrdersController@create')->name('product_orders.create');
+    Route::post('/product_orders/{order}/store', 'ProductOrdersController@store')->name('product_orders.store');
 
     Route::get('/logout', 'LoginController@logout')->name('app.logout');
 
-    
+
 });
 
 Route::fallback(function (){
