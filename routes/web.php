@@ -60,7 +60,9 @@ Route::prefix('/app')->middleware('autenticacao')->group(function()
     Route::get('/product_orders', 'ProductOrdersController@index')->name('product_orders.index');
     Route::get('/product_orders/{order}/create', 'ProductOrdersController@create')->name('product_orders.create');
     Route::post('/product_orders/{order}/store', 'ProductOrdersController@store')->name('product_orders.store');
-    Route::delete('/product_orders/{productOrder}/{order}/delete', 'ProductOrdersController@destroy')->name('product_orders.destroy');
+    Route::delete('/product_orders/{productOrder}/{order}/delete', 
+        'ProductOrdersController@destroy')
+        ->name('product_orders.destroy');
 
     Route::get('/logout', 'LoginController@logout')->name('app.logout');
 

@@ -33,11 +33,13 @@
                                 <td class="p-2">{{ $op->descricao }}</td>
                                 <td class="p-2" style="text-align: right;">{{ $op->pivot->created_at->format('d/m/Y') }}</td>
                                 <td>
-                                    <form action="" id="form_{{$op->pivot->id}}">
-                                        <a href="{{ route('product-order.destroy', [
-                                            'productOrder' => $op->pivot->id, 
-                                            'order' => $order->id
-                                            ]) }}" onclick="document.getElementById('form_{{ $op->pivot->id }}').submit()">
+                                    <form method="post" action="{{ route('product_orders.destroy', [
+                                        'productOrder' => $op->pivot->id, 
+                                        'order' => $order->id
+                                        ]) }}" id="form_{{$op->pivot->id}}"> 
+                                        @csrf 
+                                        @method('DELETE')
+                                        <a href="#" onclick="document.getElementById('form_{{ $op->pivot->id }}').submit()">
                                             Excluir
                                         </a>
                                     </form>

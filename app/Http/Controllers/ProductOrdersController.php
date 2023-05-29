@@ -65,7 +65,8 @@ class ProductOrdersController extends Controller
     }
     
     public function destroy(ProductOrder $productOrder, Order $order) 
-    {
-        $product_order->delete();
+    {        
+        $productOrder->delete();
+        return redirect()->route('product_orders.create', ['order' => $order->id]);
     }
 }
