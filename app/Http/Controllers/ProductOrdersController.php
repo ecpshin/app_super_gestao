@@ -29,15 +29,23 @@ class ProductOrdersController extends Controller
 
     public function store(Request $request, Order $order)
     {
-        $rulesP = ['product_id' => 'exists:products,id'];
-        $messageP = ['product_id.exists' => 'O produto informado não existe.'];
-        $request->validate($rulesP, $messageP);
-        $produto = (int) $request->get('product_id');
+        $rulesP = [
+            'product_id' => 'exists:products,id', 
+            'quantidade' => 'required'
+        ];
 
-        ProductOrder::create([
-            'order_id' => $order->id,
-            'product_id' => $produto
+        $messageP = [
+            'product_id.exists' => 'O produto informado não existe.',
+            'required' => 'O campo :attribute é obrigatório!'
+        ];
+
+        $request->validate($rulesP, $messageP);
+        
+        $produto = (int) $request->get('product_id');
+        $order->products()->attach($produto, [
+            'quantidade' => $request->get('quantidade')
         ]);
+        
         return redirect()->route('product_orders.create', ['order' => $order->id]);
     }
 
@@ -50,27 +58,14 @@ class ProductOrdersController extends Controller
     {
         //
     }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    
     public function update(Request $request, $id)
     {
         //
     }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
+    
+    public function destroy(ProductOrder $productOrder, Order $order) 
     {
-        //
+        $product_order->delete();
     }
 }
